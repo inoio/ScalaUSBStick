@@ -1,0 +1,11 @@
+---
+- hosts: scalausb
+
+  tasks:
+    - name: Install packages via homebrew
+      homebrew: name={{item}} update_homebrew=yes state=present
+      with_items:
+        - "scala"
+        - "sbt"
+        - "git"
+        - "play"
