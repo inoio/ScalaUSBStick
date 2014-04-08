@@ -10,6 +10,8 @@
     scalaFile: "scala-{{scalaVersion}}.tgz"
     scalaDocs: "scala-docs-{{scalaVersion}}.zip"
     playFile: "play-{{playVersion}}.zip"
+    activatorVersion: "1.1.0"
+    activator: "typesafe-activator-{{activatorVersion}}.zip"
 
     wget: "/usr/local/bin/wget"
 
@@ -35,6 +37,9 @@
     with_items:
       - "{{scalaIdeWin64}}"
       - "{{scalaIdeMacOSX}}"
+
+  - name: get activator
+    command: "{{wget}} http://downloads.typesafe.com/typesafe-activator/{{activatorVersion}}/{{activator}} creates={{activator}} chdir={{home}}"
 
   - name: checkout repository
     command: "git clone https://github.com/oose/ScalaUnterlagen.git Teilnehmer chdir={{home}} creates='Teilnehmer'"
