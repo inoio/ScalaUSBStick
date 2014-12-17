@@ -1,19 +1,17 @@
 ---
 - hosts: scalausb
   vars:
-    home: "~/Documents/ScalaSeminarWorkspace/ScalaUSBStick"
-    scalaVersion: "2.10.4"
-    playVersion: "2.2.2"
-    sbtVersion: "0.13.1"
+    home: "~/Documents/inoio/ScalaSeminarWorkspace/ScalaUSBStick"
+    scalaVersion: "2.11.4"
+    sbtVersion: "0.13.7"
+    sbtUrl: "https://dl.bintray.com/sbt/native-packages/sbt/{{sbtVersion}}/sbt-{{sbtVersion}}.{{item.ending}}"
     scalaIdeDownload: "http://downloads.typesafe.com/scalaide-pack/3.0.3.vfinal-210-20140327/"
     scalaIdeWin64: "scala-SDK-3.0.3-2.10-win32.win32.x86_64.zip"
     scalaIdeMacOSX: "scala-SDK-3.0.3-2.10-macosx.cocoa.x86_64.zip"
     scalaFile: "scala-{{scalaVersion}}.tgz"
     scalaDocs: "scala-docs-{{scalaVersion}}.zip"
-    playFile: "play-{{playVersion}}.zip"
-    activatorVersion: "1.1.0"
+    activatorVersion: "1.2.12"
     activator: "typesafe-activator-{{activatorVersion}}.zip"
-
     wget: "/usr/local/bin/wget"
 
   tasks:
@@ -23,11 +21,8 @@
       - "{{scalaFile}}"
       - "{{scalaDocs}}"
 
-  - name: get play
-    command: "{{wget}} http://downloads.typesafe.com/play/{{playVersion}}/{{playFile}} chdir={{home}} creates={{playFile}}"
-
   - name: get sbt versions
-    command: "{{wget}} http://repo.scala-sbt.org/scalasbt/sbt-native-packages/org/scala-sbt/sbt/{{sbtVersion}}/{{item.input}} -o sbt-{{sbtVersion}}.{{item.ending}} creates=sbt-{{sbtVersion}}.{{item.ending}} chdir={{home}}"
+    command: "{{wget}} {{sbtUrl}} -O sbt-{{sbtVersion}}.{{item.ending}} creates=sbt-{{sbtVersion}}.{{item.ending}} chdir={{home}}"
     with_items:
       - { input: "sbt.msi", ending: "msi" }
       - { input: "sbt.zip", ending: "zip" }
